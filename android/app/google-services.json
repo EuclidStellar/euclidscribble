@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "393003395002",
+    "project_id": "euclidscribble",
+    "storage_bucket": "euclidscribble.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393003395002:android:be8e43c621e43ed67f1f83",
+        "android_client_info": {
+          "package_name": "com.example.euclidscribble"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPSNIDtwkU_GDYUWg5kSyTGrsf-3vYQ-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393003395002:android:984a8b23363c7a077f1f83",
+        "android_client_info": {
+          "package_name": "com.example.poems"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPSNIDtwkU_GDYUWg5kSyTGrsf-3vYQ-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
