@@ -1,164 +1,7 @@
-// import 'package:euclidscribble/firebase_options.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//    await Firebase.initializeApp(
-//   options: DefaultFirebaseOptions.currentPlatform,
-// );
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Poem App',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: PoemList(),
-//     );
-//   }
-// }
-
-// class PoemList extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('design Images'),
-//       ),
-//       body: StreamBuilder(
-//         stream: FirebaseFirestore.instance
-//             .collection('poems')
-//             .orderBy('timestamp', descending: true) // Sort by timestamp in descending order
-//             .snapshots(),
-//         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(
-//               child: CircularProgressIndicator(),
-//             );
-//           }
-
-//           if (snapshot.hasError) {
-//             return Center(
-//               child: Text('Error: ${snapshot.error}'),
-//             );
-//           }
-
-//           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-//             return Center(
-//               child: Text('No image data available.'),
-//             );
-//           }
-
-//           // Map each document to an ImageData object
-//           List<ImageData> images = snapshot.data!.docs.map((doc) {
-//             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-//             return ImageData(
-//               name: data['name'] ?? '',
-//               description: data['description'] ?? '',
-//               imageUrl: data['image_url'] ?? '',
-//             );
-//           }).toList();
-
-//           return GridView.builder(
-//             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//               crossAxisCount: 2,
-//               crossAxisSpacing: 8.0,
-//               mainAxisSpacing: 8.0,
-//             ),
-//             itemCount: images.length,
-//             itemBuilder: (context, index) {
-//               return InkWell(
-//                 onTap: () {
-//                   _showImageDetailsDialog(context, images[index]);
-//                 },
-//                 child: Image.network(
-//                   images[index].imageUrl,
-//                   fit: BoxFit.cover,
-//                 ),
-//               );
-//             },
-//           );
-//         },
-//       ),
-//     );
-//   }
-
-//   void _showImageDetailsDialog(BuildContext context, ImageData imageData) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: Text(imageData.name),
-//           content: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               Text('Description: ${imageData.description}'),
-//               SizedBox(height: 16),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   _showFullScreenImage(context, imageData.imageUrl);
-//                 },
-//                 child: Text('Show Image'),
-//               ),
-//             ],
-//           ),
-//           actions: [
-//             TextButton(
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//               },
-//               child: Text('Close'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-
-//   void _showFullScreenImage(BuildContext context, String imageUrl) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Dialog(
-//           child: Container(
-//             width: double.infinity,
-//             height: double.infinity,
-//             decoration: BoxDecoration(
-//               image: DecorationImage(
-//                 image: NetworkImage(imageUrl),
-//                 fit: BoxFit.cover,
-//               ),
-//             ),
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-// class ImageData {
-//   final String name;
-//   final String description;
-//   final String imageUrl;
-
-//   ImageData({
-//     required this.name,
-//     required this.description,
-//     required this.imageUrl,
-//   });
-// }
 
 
-
-import 'package:euclidscribble/firebase_options.dart';
+import 'package:euclidscribble/poemdeatil.dart';
+import 'package:euclidscribble/poemlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -166,9 +9,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -176,8 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+     
       title: 'Poem App',
+      
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
       home: PoemList(),
@@ -185,155 +30,154 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PoemList extends StatelessWidget {
+
+
+class AllPoems extends StatelessWidget {
+  final String searchTerm;
+
+  AllPoems({required this.searchTerm});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('design Images'),
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('poems')
-            .orderBy('timestamp', descending: true) // Sort by timestamp in descending order
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text('No image data available.'),
-            );
-          }
-
-          // Map each document to an ImageData object
-          List<ImageData> images = snapshot.data!.docs.map((doc) {
-            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-            return ImageData(
-              name: data['name'] ?? '',
-              title: data['title'] ?? '',
-              description: data['description'] ?? '',
-              imageUrl: data['image_url'] ?? '',
-            );
-          }).toList();
-
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-            ),
-            itemCount: images.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  _showImageDetailsDialog(context, images[index]);
-                },
-                child: Image.network(
-                  images[index].imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              );
-            },
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('poems').snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
-    );
-  }
+        }
 
-  void _showImageDetailsDialog(BuildContext context, ImageData imageData) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CachedNetworkImage(
-                  imageUrl: imageData.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Title: ${imageData.title}',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text('Writer: ${imageData.name}'),
-                      SizedBox(height: 8),
-                      Text('Description: ${imageData.description}'),
-                      SizedBox(height: 16),
-                    ],
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        }
+
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return Center(
+            child: Text('No image data available.'),
+          );
+        }
+
+        List<ImageData> images = snapshot.data!.docs.map((doc) {
+          Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+          return ImageData(
+            name: data['name'] ?? '',
+            title: data['title'] ?? '',
+            description: data['description'] ?? '',
+            imageUrl: data['image_url'] ?? '',
+          );
+        }).toList();
+
+        if (searchTerm.isNotEmpty) {
+          images = images
+              .where((image) =>
+                  image.title.toLowerCase().contains(searchTerm.toLowerCase()))
+              .toList();
+        }
+
+        return ListView.builder(
+          itemCount: images.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PoemDetailScreen(imageData: images[index]),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _showFullScreenImage(context, imageData.imageUrl);
-                  },
-                  child: Text('Show Image'),
-                ),
-                SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Close'),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _showFullScreenImage(BuildContext context, String imageUrl) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+                );
+              },
+              child: PoemCard(imageData: images[index]),
+            );
+          },
         );
       },
     );
   }
 }
 
-class ImageData {
-  final String name;
-  final String title;
-  final String description;
-  final String imageUrl;
 
-  ImageData({
-    required this.name,
-    required this.title,
-    required this.description,
-    required this.imageUrl,
-  });
+class PoemCard extends StatelessWidget {
+  final ImageData imageData;
+
+  PoemCard({required this.imageData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      borderOnForeground: false,
+      color: const Color.fromARGB(255, 0, 0, 0),
+      shadowColor: Colors.grey,
+      surfaceTintColor: Colors.grey,
+      elevation: 8,
+      margin: EdgeInsets.all(10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Column(
+
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12.0),
+              topRight: Radius.circular(12.0),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: imageData.imageUrl,
+              fit: BoxFit.cover,
+              height: 200,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                Text(
+                  imageData.title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: Colors.grey,
+                      size: 18,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      imageData.name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Text(
+                  imageData.description,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
