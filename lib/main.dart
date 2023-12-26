@@ -1,5 +1,3 @@
-
-
 import 'package:euclidscribble/poemdeatil.dart';
 import 'package:euclidscribble/poemlist.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,9 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-     
-      title: 'Poem App',
-      
+      title: 'Euclid Scribble',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -29,8 +25,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
 
 class AllPoems extends StatelessWidget {
   final String searchTerm;
@@ -99,7 +93,6 @@ class AllPoems extends StatelessWidget {
   }
 }
 
-
 class PoemCard extends StatelessWidget {
   final ImageData imageData;
 
@@ -118,7 +111,6 @@ class PoemCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Column(
-
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
@@ -143,14 +135,14 @@ class PoemCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: const Color.fromARGB(255, 187, 187, 187),
                   ),
                 ),
                 SizedBox(height: 8),
                 Row(
                   children: [
                     Icon(
-                      Icons.person,
+                      Icons.book_rounded,
                       color: Colors.grey,
                       size: 18,
                     ),
@@ -165,13 +157,6 @@ class PoemCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8),
-                Text(
-                  imageData.description,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
-                  ),
-                ),
                 SizedBox(height: 16),
               ],
             ),

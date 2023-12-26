@@ -28,13 +28,14 @@ class _PoemListState extends State<PoemList> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           foregroundColor: Colors.cyanAccent,
-          title: Text('Design Images'),
+          title: Text('Euclid Scribble ?'),
           bottom: TabBar(
             labelColor: Colors.cyanAccent,
             dividerColor: const Color.fromARGB(255, 0, 0, 0),
             indicatorColor: Colors.cyanAccent,
-            overlayColor: MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
-            unselectedLabelColor: Colors.cyanAccent,
+            overlayColor:
+                MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
+            unselectedLabelColor: Colors.grey,
             tabs: [
               Tab(text: 'Latest Poems'),
               Tab(text: 'All Poems'),
@@ -42,7 +43,6 @@ class _PoemListState extends State<PoemList> {
           ),
         ),
         body: TabBarView(
-
           children: [
             LatestPoems(searchTerm: _searchTerm),
             AllPoems(searchTerm: _searchTerm),
@@ -52,8 +52,6 @@ class _PoemListState extends State<PoemList> {
     );
   }
 }
-
-
 
 class LatestPoems extends StatelessWidget {
   final String searchTerm;
@@ -106,17 +104,18 @@ class LatestPoems extends StatelessWidget {
         return ListView.builder(
           itemCount: images.length,
           itemBuilder: (context, index) {
-            return PoemCard(imageData: images[index]);
+            return PoemCard1(imageData: images[index]);
           },
         );
       },
     );
   }
 }
-class PoemCard extends StatelessWidget {
+
+class PoemCard1 extends StatelessWidget {
   final ImageData imageData;
 
-  PoemCard({required this.imageData});
+  PoemCard1({required this.imageData});
 
   @override
   Widget build(BuildContext context) {
@@ -136,10 +135,13 @@ class PoemCard extends StatelessWidget {
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(12.0),
-          child: CachedNetworkImage(
-            imageUrl: imageData.imageUrl,
-            fit: BoxFit.cover,
-            height: 200,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CachedNetworkImage(
+              imageUrl: imageData.imageUrl,
+              fit: BoxFit.cover,
+              height: 200,
+            ),
           ),
         ),
         Padding(
@@ -147,7 +149,6 @@ class PoemCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               SizedBox(height: 8),
               Text(
                 imageData.description,
@@ -158,9 +159,10 @@ class PoemCard extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                'Writer: ${imageData.name}',
+                '${imageData.name}',
                 style: TextStyle(
                   fontSize: 16,
+                  fontWeight: FontWeight.bold,
                   color: Colors.grey,
                 ),
               ),

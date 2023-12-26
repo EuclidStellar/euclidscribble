@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -10,37 +9,68 @@ class PoemDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Poem Detail'),
-      ),
+      backgroundColor: Colors.black54,
+      drawerScrimColor: Colors.black54,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: imageData.imageUrl,
-              fit: BoxFit.cover,
-              height: 200,
+            SizedBox(
+              height: 40,
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.grey,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                '${imageData.title}',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: CachedNetworkImage(
+                  imageUrl: imageData.imageUrl,
+                  fit: BoxFit.cover,
+                  height: 200,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Title: ${imageData.title}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  // Text(
+                  //   'Title: ${imageData.title}',
+                  //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  // ),
+                  SizedBox(height: 8),
+
                   SizedBox(height: 8),
                   Text(
-                    'Writer: ${imageData.name}',
+                    '${imageData.description}',
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 16),
                   Text(
-                    'Description: ${imageData.description}',
+                    '                                                             ${imageData.name}',
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ),
