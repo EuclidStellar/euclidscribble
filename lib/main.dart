@@ -1,3 +1,4 @@
+import 'package:euclidscribble/firebase_options.dart';
 import 'package:euclidscribble/poemdeatil.dart';
 import 'package:euclidscribble/poemlist.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +8,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 

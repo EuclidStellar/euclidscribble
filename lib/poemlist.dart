@@ -24,15 +24,15 @@ class _PoemListState extends State<PoemList> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.black54,
+        backgroundColor: Colors.black,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          foregroundColor: Colors.cyanAccent,
-          title: Text('Euclid Scribble ?'),
+          foregroundColor: Color(0xff9cd67d),
+          title: Text('Dead Poet Society'),
           bottom: TabBar(
-            labelColor: Colors.cyanAccent,
+            labelColor:Color(0xff9cd67d),
             dividerColor: const Color.fromARGB(255, 0, 0, 0),
-            indicatorColor: Colors.cyanAccent,
+            indicatorColor:Color(0xff9cd67d),
             overlayColor:
                 MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
             unselectedLabelColor: Colors.grey,
@@ -124,23 +124,27 @@ class PoemCard1 extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            imageData.title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 212, 211, 211),
+          child: Center(
+            child: Text(
+              imageData.title,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 212, 211, 211),
+              ),
             ),
           ),
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(12.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: CachedNetworkImage(
-              imageUrl: imageData.imageUrl,
-              fit: BoxFit.cover,
-              height: 200,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CachedNetworkImage(
+                imageUrl: imageData.imageUrl,
+                fit: BoxFit.cover,
+                height: 200,
+              ),
             ),
           ),
         ),
